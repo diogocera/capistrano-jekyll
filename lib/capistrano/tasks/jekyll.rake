@@ -4,7 +4,7 @@ namespace :jekyll do
   task :build do
     on roles(:web) do
       within current_path do
-        execute :jekyll, 'build'
+        execute :jekyll, 'build', "JEKYLL_ENV=#{fetch(:jekyll_environment)}"
       end
     end
   end
@@ -19,4 +19,10 @@ namespace :jekyll do
   end
 
   after 'deploy:symlink:release', :build
+end
+
+namespace :load do
+  task :defaults do
+    set :jekyll_environment, "PRODUCTION"
+  end
 end
